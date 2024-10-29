@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Board</title>
+</head>
+<body>
+    <h1>Game Board for {{ game.player_name }}</h1>
+    <h2>Attempts:</h2>
+    <ul>
+        {% for attempt in attempts %}
+            <li>{{ attempt.attempt_text }} - {{ feedbacks|slice:forloop.counter0 }}</li>
+        {% empty %}
+            <li>No attempts made yet.</li>
+        {% endfor %}
+    </ul>
+    
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="text" name="attempt_text" maxlength="5" required placeholder="Enter your guess">
+        <button type="submit">Make Attempt</button>
+    </form>
+    
+    {% if last_feedback %}
+        <p>Feedback: {{ last_feedback }}</p>
+    {% endif %}
+    
+</body>
+</html>

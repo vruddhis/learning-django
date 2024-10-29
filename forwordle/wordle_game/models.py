@@ -25,25 +25,30 @@ class Game(models.Model):
 
     def make_attempt(self, attempt_text):
         if len(attempt_text) != 5:
-            raise ValueError("Invalid input. Please enter a 5 lettered word")
+            raise ValueError("Invalid input. Please enter a 5-letter word")
+
+        word, created = Word.objects.get_or_create(text=attempt_text.lower())
         
-        attempt = Attempt.objects.create(word=self.correct_word, attempt_text=attempt_text)
+        attempt = Attempt.objects.create(word=word, attempt_text=attempt_text)
         self.attempts.add(attempt)
 
-        if attempt_text == self.correct_word.text:
+        if attempt_text.lower() == self.correct_word.text.lower():
             return "YAYAYYAYAY!!! THIS WAS THE CORRECT WORD"
         
         feedback = self.provide_feedback(attempt_text)
-        
+
         if self.attempts.count() >= self.MAX_ATTEMPTS:
             return f"Game Over! The correct word was '{self.correct_word.text}'."
         
         return feedback
 
+
+
     def provide_feedback(self, attempt_text):
         feedback = []
-        correct_word_text = self.correct_word.text
-        
+        correct_word_text = self.correct_word.text.lower()  # Convert to lowercase for consistency
+        attempt_text = attempt_text.lower()  # Convert attempt to lowercase
+
         for i in range(len(attempt_text)):
             if attempt_text[i] == correct_word_text[i]:
                 feedback.append('G')  
@@ -51,5 +56,5 @@ class Game(models.Model):
                 feedback.append('Y')  
             else:
                 feedback.append('B') 
-        
+
         return feedback

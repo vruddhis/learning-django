@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Result</title>
+</head>
+<body>
+    <h1>Game Result for {{ game.player_name }}</h1>
+<p>Game ID: {{ game.id }}</p>
+<p>The correct word was: {{ game.correct_word.text }}</p>
+
+<h2>Attempts and Feedback:</h2>
+{% if feedbacks %}
+    <ul>
+        {% for feedback in feedbacks %}
+            <li>{{ feedback.attempt_text }}: {{ feedback.feedback }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No attempts were made.</p>
+{% endif %}
+
+</body>
+</html>

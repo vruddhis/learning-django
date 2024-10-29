@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Games</title>
+</head>
+<body>
+    <h1>All Games</h1>
+    {% if games %}
+        <ul>
+        {% for game in games %}
+            <li><a href="{% url 'game_board' game.id %}">Game ID {{ game.id }} - {{ game.player_name }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No games available.</p>
+    {% endif %}
+</body>
+</html>
